@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form formType="sheetTemplate" dataType="br.com.galaticheroes" 
+    title="Ficha Galatic Heroes" name="fichaGalaticHeroes" theme="light"> 
+	 
+	<style>
+		layout {
+			left: 20;
+			top: 20;
+			width: 500;
+			height: 500;
+		}
+		
+		.LayoutCampo {
+			align: top;
+			height: 25;
+			align: left;
+			margins: {left=2, right=2};
+		}
+		
+		.LayoutCampo label {
+			align: left;
+			width: 45;
+			vertTextAlign: center;
+		}
+
+		.LayoutCampo edit {
+			align: left;
+			height: 25;
+			width: 75;
+			horzTextAlign: center;
+			fontSize: 20;
+		}
+		
+		.Atributo edit {
+			align: left;
+			height: 25;
+			width: 50;
+			horzTextAlign: center;
+			fontSize: 20;
+		}
+		
+		.LabelNumber {
+			align: left;
+			height: 25;
+			width: 50;
+			horzTextAlign: center;
+			fontSize: 20;
+		}
+	</style> 
+
+	<layout left="20" top="20" width="500" height="500">
+		<flowLayout align="top" left="20" top="20" autoHeight="true" width="200" orientation="horizontal"> 
+			<!-- LV -->
+			<layout class="LayoutCampo" margins="{bottom=20}">
+				<label align="left" text="LV: " width="45"/>
+				<edit type="number" keyboardType="numberPad" align="left" 
+					horzTextAlign="center" field="level" width="50"/>
+			</layout>
+			<!-- PV -->
+			<layout class="LayoutCampo">
+				<label align="left" text="PV: " width="45"/>
+				<edit type="number" keyboardType="numberPad" align="left" 
+					horzTextAlign="center" field="pv" width="100"/>
+			</layout>
+			<!-- PH -->
+			<layout class="LayoutCampo">
+				<label align="left" text="PH: " width="45"/>
+				<edit type="number" keyboardType="numberPad" align="left" 
+					horzTextAlign="center" field="ph" width="100"/>
+			</layout>
+			<!-- IP -->
+			<layout class="LayoutCampo">
+				<label align="left" text="IP: " width="45"/>
+				<edit type="number" keyboardType="numberPad" align="left"
+					horzTextAlign="center" field="ip" width="100"/>
+			</layout>
+			<!-- PM -->
+			<layout class="LayoutCampo">
+				<label align="left" text="PM: " width="45"/>
+				<edit type="number" keyboardType="numberPad" align="left" 
+					horzTextAlign="center" field="pm" width="100"/>
+			</layout>
+			<!-- Mira -->
+			<layout class="LayoutCampo">
+				<label align="left" text="Mira: " width="45"/>
+				<edit type="number" keyboardType="numberPad" align="left" 
+					horzTextAlign="center" field="mira" width="100"/>
+			</layout>
+		</flowLayout> 
+		
+		<!-- Atributos -->
+		<flowLayout align="top" left="20" top="20" autoHeight="true" width="300" orientation="horizontal" margins="{top=20}">
+			<label align="top" text="Atributos" fontSize="24" height="25" autoSize="true" margins="{bottom=10}"/>
+			<layout class="LayoutCampo">
+				<rectangle align="left" width="50" opacity="0"/>
+				<label text="Valor" fontSize="10" horzTextAlign="center" width="50"/>
+				<label text="MOD" fontSize="10" horzTextAlign="center" width="50"/>
+				<label text="%" fontSize="10" horzTextAlign="center" width="50"/>
+			</layout>
+			<!-- Força -->
+			<layout class="LayoutCampo Atributo">
+				<label text="FOR: " width="50"/>
+				<edit field="atribFor" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribFor" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribFor"/>
+				<label class="LabelNumber" field="bonusFor" />
+			</layout>
+			<!-- Constituição -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="CON: " width="50"/>
+				<edit field="atribCon" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribCon" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribCon"/>
+				<label class="LabelNumber" field="bonusCon" />
+			</layout>
+			<!-- Destreza -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="DEX: " width="50"/>
+				<edit field="atribDex" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribDex" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribDex"/>
+			</layout>
+			<!-- Agilidade -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="AGI: " width="50"/>
+				<edit field="atribAgi" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribAgi" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribAgi"/>
+			</layout>
+			<!-- Inteligência -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="INT: " width="50"/>
+				<edit field="atribInt" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribInt" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribInt"/>
+			</layout>
+			<!-- Força de Vontade -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="WILL: " width="50"/>
+				<edit field="atribWill" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribWill" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribWill"/>
+			</layout>
+			<!-- Percepição -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="PER: " width="50"/>
+				<edit field="atribPer" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribPer" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribPer"/>
+			</layout>
+			<!-- Carisma -->
+			<layout class="LayoutCampo Atributo">
+				<label align="left" text="CAR: " width="50"/>
+				<edit field="atribCar" type="number" keyboardType="numberPad" text="0"/>
+				<edit field="modAtribCar" type="number" keyboardType="numberPad" text="0"/>
+				<label class="LabelNumber" field="totalAtribCar"/>
+			</layout>
+		</flowLayout>
+	</layout>
+	
+	
+	<!-- Cálculo de campos / uso de dataLink -->  
+	<dataLink fields="{'atribFor', 'modAtribFor'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribFor) or 0) + 
+								(tonumber(sheet.modAtribFor) or 0);
+			sheet.totalAtribFor = resultadoSoma * 4;
+			
+			if (resultadoSoma >= 12) then
+				sheet.bonusFor = math.floor(((resultadoSoma - 12) / 2) + 1);
+			end
+			
+			if (sheet.totalAtribCon ~= nil) then
+				local valAtribFor = (tonumber(sheet.totalAtribFor) or 0) / 4;
+				local valAtribCon = (tonumber(sheet.totalAtribCon) or 0) / 4;
+				local resultadoPV = ((valAtribFor + valAtribCon) / 2) + (tonumber(sheet.level) or 0) + (tonumber(sheet.bonusCon) or 0);
+				sheet.pv = math.floor(resultadoPV);
+			end
+		</event>
+	</dataLink>	
+	<dataLink fields="{'atribCon', 'modAtribCon'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribCon) or 0) + 
+								(tonumber(sheet.modAtribCon) or 0);
+			sheet.totalAtribCon = resultadoSoma * 4;
+			
+			if (resultadoSoma >= 12) then
+				sheet.bonusCon = math.floor(((resultadoSoma - 12) / 2) + 1);
+			end
+			
+			if (sheet.totalAtribFor ~= nil) then
+				local valAtribFor = (tonumber(sheet.totalAtribFor) or 0) / 4;
+				local valAtribCon = (tonumber(sheet.totalAtribCon) or 0) / 4;
+				local resultadoPV = ((valAtribFor + valAtribCon) / 2) + (tonumber(sheet.level) or 0) + (tonumber(sheet.bonusCon) or 0);
+				sheet.pv = math.floor(resultadoPV);
+			end
+		</event>
+	</dataLink>
+	<dataLink fields="{'atribDex', 'modAtribDex'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribDex) or 0) + 
+								(tonumber(sheet.modAtribDex) or 0);
+			sheet.totalAtribDex = resultadoSoma * 4;
+		</event>
+	</dataLink>
+	<dataLink fields="{'atribAgi', 'modAtribAgi'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribAgi) or 0) + 
+								(tonumber(sheet.modAtribAgi) or 0);
+			sheet.totalAtribAgi = resultadoSoma * 4;
+		</event>
+	</dataLink>
+	<dataLink fields="{'atribInt', 'modAtribInt'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribInt) or 0) + 
+								(tonumber(sheet.modAtribInt) or 0);
+			sheet.totalAtribInt = resultadoSoma * 4;
+		</event>
+	</dataLink>
+	<dataLink fields="{'atribWill', 'modAtribWill'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribWill) or 0) + 
+								(tonumber(sheet.modAtribWill) or 0);
+			sheet.totalAtribWill = resultadoSoma * 4;
+		</event>
+	</dataLink>
+	<dataLink fields="{'atribPer', 'modAtribPer'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribPer) or 0) + 
+								(tonumber(sheet.modAtribPer) or 0);
+			sheet.totalAtribPer = resultadoSoma * 4;
+		</event>
+	</dataLink>
+	<dataLink fields="{'atribCar', 'modAtribCar'}">
+		<event name="onChange">
+			local resultadoSoma = (tonumber(sheet.atribCar) or 0) + 
+								(tonumber(sheet.modAtribCar) or 0);
+			sheet.totalAtribCar = resultadoSoma * 4;
+		</event>
+	</dataLink>
+</form>
