@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Atributos -->
+<flowLayout name="containerAtributos" align="top" left="20" top="20" autoHeight="true" width="200" orientation="horizontal" margins="{top=20}">
+
+	<style>
+		.Atributo edit {
+			align: left;
+			height: 25;
+			width: 50;
+			horzTextAlign: center;
+			fontSize: 20;
+		}
+	</style>
+
+	<label align="left" text="Atributos" fontSize="24" height="25" width="200" margins="{bottom=10}"/>
+	<flowLineBreak/> 
+	
+	<layout class="LayoutCampo">
+		<rectangle align="left" width="50" opacity="0"/>
+		<label text="Valor" fontSize="10" horzTextAlign="center" width="50"/>
+		<label text="MOD" fontSize="10" horzTextAlign="center" width="50"/>
+		<label text="%" fontSize="10" horzTextAlign="center" width="50"/>
+	</layout>
+	
+	<!-- Força -->
+	<layout class="LayoutCampo Atributo">
+		<label text="FOR: " width="50"/>
+		<edit field="atribFor" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribFor" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribFor"/>
+		<label class="LabelNumber" field="bonusFor" visible="false"/>
+		<dataLink fields="{'atribFor', 'modAtribFor'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribFor = getPercentualAtributo(sheet.atribFor, sheet.modAtribFor);
+				sheet.bonusFor = getBonusAtributo(sheet.atribFor, sheet.modAtribFor);
+				calcularPV();
+			</event>
+		</dataLink>	
+	</layout>
+	
+	<!-- Constituição -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="CON: " width="50"/>
+		<edit field="atribCon" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribCon" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribCon"/>
+		<label class="LabelNumber" field="bonusCon" visible="false"/>
+		<dataLink fields="{'atribCon', 'modAtribCon'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribCon = getPercentualAtributo(sheet.atribCon, sheet.modAtribCon);
+				sheet.bonusCon = getBonusAtributo(sheet.atribCon, sheet.modAtribCon);
+				calcularPV();
+			</event>
+		</dataLink>
+	</layout>
+	
+	<!-- Destreza -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="DEX: " width="50"/>
+		<edit field="atribDex" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribDex" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribDex"/>
+		<label class="LabelNumber" field="bonusDex" visible="false"/>
+		<dataLink fields="{'atribDex', 'modAtribDex'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribDex = getPercentualAtributo(sheet.atribDex, sheet.modAtribDex);
+				sheet.bonusDex = getBonusAtributo(sheet.atribDex, sheet.modAtribDex);
+			</event>
+		</dataLink>
+	</layout>
+	
+	<!-- Agilidade -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="AGI: " width="50"/>
+		<edit field="atribAgi" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribAgi" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribAgi"/>
+		<label class="LabelNumber" field="bonusAgi" visible="false"/>
+		<dataLink fields="{'atribAgi', 'modAtribAgi'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribAgi = getPercentualAtributo(sheet.atribAgi, sheet.modAtribAgi);
+				sheet.bonusAgi = getBonusAtributo(sheet.atribAgi, sheet.modAtribAgi);
+			</event>
+		</dataLink>
+	</layout>
+	
+	<!-- Inteligência -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="INT: " width="50"/>
+		<edit field="atribInt" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribInt" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribInt"/>
+		<label class="LabelNumber" field="bonusInt" visible="false"/>
+		<dataLink fields="{'atribInt', 'modAtribInt'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribInt = getPercentualAtributo(sheet.atribInt, sheet.modAtribInt);
+				sheet.bonusInt = getBonusAtributo(sheet.atribInt, sheet.modAtribInt);
+			</event>
+		</dataLink>
+	</layout>
+	
+	<!-- Força de Vontade -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="WILL: " width="50"/>
+		<edit field="atribWill" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribWill" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribWill"/>
+		<label class="LabelNumber" field="bonusWill" visible="false"/>
+		<dataLink fields="{'atribWill', 'modAtribWill'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribWill = getPercentualAtributo(sheet.atribWill, sheet.modAtribWill);
+				sheet.bonusWill = getBonusAtributo(sheet.atribWill, sheet.modAtribWill);
+				calcularPM();
+			</event>
+		</dataLink>
+	</layout>
+	
+	<!-- Percepição -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="PER: " width="50"/>
+		<edit field="atribPer" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribPer" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribPer"/>
+		<label class="LabelNumber" field="bonusPer" visible="false"/>
+		<dataLink fields="{'atribPer', 'modAtribPer'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribPer = getPercentualAtributo(sheet.atribPer, sheet.modAtribPer);
+				sheet.bonusPer = getBonusAtributo(sheet.atribPer, sheet.modAtribPer);
+			</event>
+		</dataLink>
+	</layout>
+	
+	<!-- Carisma -->
+	<layout class="LayoutCampo Atributo">
+		<label align="left" text="CAR: " width="50"/>
+		<edit field="atribCar" type="number" keyboardType="numberPad"/>
+		<edit field="modAtribCar" type="number" keyboardType="numberPad"/>
+		<label class="LabelNumber" field="percentAtribCar"/>
+		<label class="LabelNumber" field="bonusCar" visible="false"/>
+		<dataLink fields="{'atribCar', 'modAtribCar'}" defaultValues="{'0','0'}">
+			<event name="onChange">
+				sheet.percentAtribCar = getPercentualAtributo(sheet.atribCar, sheet.modAtribCar);
+				sheet.bonusCar = getBonusAtributo(sheet.atribCar, sheet.modAtribCar);
+			</event>
+		</dataLink>
+	</layout>
+	
+	<script>
+		local function getTotalAtributo(valorBase, modificador)
+			return (tonumber(valorBase) or 0) + (tonumber(modificador) or 0);
+		end;
+		
+		local function getPercentualAtributo(valorBase, modificador)
+			local valorTotal = getTotalAtributo(valorBase, modificador);
+			return valorTotal * 4;
+		end;
+		
+		local function getBonusAtributo(valorBase, modificador)
+			local valorTotal = getTotalAtributo(valorBase, modificador);
+			if (valorTotal >= 12) then
+				return math.floor(((valorTotal - 12) / 2) + 1);
+			end
+			return 0;
+		end;
+		
+		local function calcularPV()
+			if (sheet.percentAtribCon ~= nil) then
+				local valAtribFor = (tonumber(sheet.percentAtribFor) or 0) / 4;
+				local valAtribCon = (tonumber(sheet.percentAtribCon) or 0) / 4;
+				local resultadoPV = ((valAtribFor + valAtribCon) / 2) + (tonumber(sheet.level) or 0) + (tonumber(sheet.bonusCon) or 0);
+				sheet.pv = math.floor(resultadoPV);
+			end
+		end;
+		
+		local function calcularPM()
+			local level = tonumber(sheet.level);
+			if (level == 1) then
+				sheet.pm = tonumber(sheet.bonusWill) + 1;
+			end
+		end;
+	</script>
+	
+</flowLayout>

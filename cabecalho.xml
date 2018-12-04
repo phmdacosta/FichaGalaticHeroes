@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flowLayout  name="containerCabecalho" align="top" left="20" top="20" autoHeight="true" width="200" orientation="vertical"> 
+
+	<!-- LV -->
+	<layout class="LayoutCampo" margins="{bottom=20}">
+		<label align="left" text="LV: " width="45"/>
+		<edit type="number" keyboardType="numberPad" align="left" 
+			horzTextAlign="center" field="level" width="50"/>
+	</layout>
+	
+	<!-- PV -->
+	<layout class="LayoutCampo">
+		<label align="left" text="PV: " width="45"/>
+		<edit type="number" keyboardType="numberPad" align="left" 
+			horzTextAlign="center" field="pv" width="100"/>
+	</layout>
+	
+	<!-- PH -->
+	<layout class="LayoutCampo">
+		<label align="left" text="PH: " width="45"/>
+		<edit type="number" keyboardType="numberPad" align="left" 
+			horzTextAlign="center" field="ph" width="100"/>
+	</layout>
+	
+	<!-- IP -->
+	<layout class="LayoutCampo">
+		<label align="left" text="IP: " width="45"/>
+		<edit type="number" keyboardType="numberPad" align="left"
+			horzTextAlign="center" field="ip" width="100"/>
+	</layout>
+	
+	<!-- PM -->
+	<layout class="LayoutCampo">
+		<label align="left" text="PM: " width="45"/>
+		<edit type="number" keyboardType="numberPad" align="left" 
+			horzTextAlign="center" field="pm" width="100"/>
+	</layout>
+	
+	<!-- Mira -->
+	<layout class="LayoutCampo">
+		<label align="left" text="Mira: " width="45"/>
+		<edit type="number" keyboardType="numberPad" align="left" 
+			horzTextAlign="center" field="mira" width="100"/>
+	</layout>
+	
+</flowLayout> 

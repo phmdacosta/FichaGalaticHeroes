@@ -1,244 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form formType="sheetTemplate" dataType="br.com.galaticheroes" 
-    title="Ficha Galatic Heroes" name="fichaGalaticHeroes" theme="light"> 
-	 
-	<style>
-		layout {
-			left: 20;
-			top: 20;
-			width: 500;
-			height: 500;
-		}
-		
-		.LayoutCampo {
-			align: top;
-			height: 25;
-			align: left;
-			margins: {left=2, right=2};
-		}
-		
-		.LayoutCampo label {
-			align: left;
-			width: 45;
-			vertTextAlign: center;
-		}
-
-		.LayoutCampo edit {
-			align: left;
-			height: 25;
-			width: 75;
-			horzTextAlign: center;
-			fontSize: 20;
-		}
-		
-		.Atributo edit {
-			align: left;
-			height: 25;
-			width: 50;
-			horzTextAlign: center;
-			fontSize: 20;
-		}
-		
-		.LabelNumber {
-			align: left;
-			height: 25;
-			width: 50;
-			horzTextAlign: center;
-			fontSize: 20;
-		}
-	</style>
+    title="Ficha Galatic Heroes" name="frmFichaGalaticHeroes" theme="light"> 
 	
-	<script>
-		local function getTotalAtributo(valorBase, modificador)
-			return (tonumber(valorBase) or 0) + (tonumber(modificador) or 0);
-		end;
-		
-		local function getPercentualAtributo(valorBase, modificador)
-			local valorTotal = getTotalAtributo(valorBase, modificador);
-			return valorTotal * 4;
-		end;
-		
-		local function getBonusAtributo(valorBase, modificador)
-			local valorTotal = getTotalAtributo(valorBase, modificador);
-			if (valorTotal >= 12) then
-				return math.floor(((valorTotal - 12) / 2) + 1);
-			end
-			return 0;
-		end;
-		
-		local function calcularPV()
-			if (sheet.percentAtribCon ~= nil) then
-				local valAtribFor = (tonumber(sheet.percentAtribFor) or 0) / 4;
-				local valAtribCon = (tonumber(sheet.percentAtribCon) or 0) / 4;
-				local resultadoPV = ((valAtribFor + valAtribCon) / 2) + (tonumber(sheet.level) or 0) + (tonumber(sheet.bonusCon) or 0);
-				sheet.pv = math.floor(resultadoPV);
-			end
-		end;
-	</script>
+	<scrollBox align="client" left="20" top="20">
+	 
+		<style>
+			layout {
+				left: 20;
+				top: 20;
+				width: 500;
+				height: 500;
+			}
 
-	<layout left="20" top="20" width="500" height="500">
-		<flowLayout align="top" left="20" top="20" autoHeight="true" width="200" orientation="horizontal"> 
-			<!-- LV -->
-			<layout class="LayoutCampo" margins="{bottom=20}">
-				<label align="left" text="LV: " width="45"/>
-				<edit type="number" keyboardType="numberPad" align="left" 
-					horzTextAlign="center" field="level" width="50"/>
-			</layout>
-			<!-- PV -->
-			<layout class="LayoutCampo">
-				<label align="left" text="PV: " width="45"/>
-				<edit type="number" keyboardType="numberPad" align="left" 
-					horzTextAlign="center" field="pv" width="100"/>
-			</layout>
-			<!-- PH -->
-			<layout class="LayoutCampo">
-				<label align="left" text="PH: " width="45"/>
-				<edit type="number" keyboardType="numberPad" align="left" 
-					horzTextAlign="center" field="ph" width="100"/>
-			</layout>
-			<!-- IP -->
-			<layout class="LayoutCampo">
-				<label align="left" text="IP: " width="45"/>
-				<edit type="number" keyboardType="numberPad" align="left"
-					horzTextAlign="center" field="ip" width="100"/>
-			</layout>
-			<!-- PM -->
-			<layout class="LayoutCampo">
-				<label align="left" text="PM: " width="45"/>
-				<edit type="number" keyboardType="numberPad" align="left" 
-					horzTextAlign="center" field="pm" width="100"/>
-			</layout>
-			<!-- Mira -->
-			<layout class="LayoutCampo">
-				<label align="left" text="Mira: " width="45"/>
-				<edit type="number" keyboardType="numberPad" align="left" 
-					horzTextAlign="center" field="mira" width="100"/>
-			</layout>
-		</flowLayout> 
-		
-		<!-- Atributos -->
-		<flowLayout align="top" left="20" top="20" autoHeight="true" width="300" orientation="horizontal" margins="{top=20}">
-			<label align="top" text="Atributos" fontSize="24" height="25" autoSize="true" margins="{bottom=10}"/>
-			<layout class="LayoutCampo">
-				<rectangle align="left" width="50" opacity="0"/>
-				<label text="Valor" fontSize="10" horzTextAlign="center" width="50"/>
-				<label text="MOD" fontSize="10" horzTextAlign="center" width="50"/>
-				<label text="%" fontSize="10" horzTextAlign="center" width="50"/>
-			</layout>
-			<!-- Força -->
-			<layout class="LayoutCampo Atributo">
-				<label text="FOR: " width="50"/>
-				<edit field="atribFor" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribFor" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribFor"/>
-				<label class="LabelNumber" field="bonusFor" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribFor', 'modAtribFor'}">
-				<event name="onChange">
-					sheet.percentAtribFor = getPercentualAtributo(sheet.atribFor, sheet.modAtribFor);
-					sheet.bonusFor = getBonusAtributo(sheet.atribFor, sheet.modAtribFor);
-					calcularPV();
-				</event>
-			</dataLink>	
-			<!-- Constituição -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="CON: " width="50"/>
-				<edit field="atribCon" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribCon" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribCon"/>
-				<label class="LabelNumber" field="bonusCon" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribCon', 'modAtribCon'}">
-				<event name="onChange">
-					sheet.percentAtribCon = getPercentualAtributo(sheet.atribCon, sheet.modAtribCon);
-					sheet.bonusCon = getBonusAtributo(sheet.atribCon, sheet.modAtribCon);
-					calcularPV();
-				</event>
-			</dataLink>
-			<!-- Destreza -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="DEX: " width="50"/>
-				<edit field="atribDex" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribDex" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribDex"/>
-				<label class="LabelNumber" field="bonusDex" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribDex', 'modAtribDex'}">
-				<event name="onChange">
-					sheet.percentAtribDex = getPercentualAtributo(sheet.atribDex, sheet.modAtribDex);
-					sheet.bonusDex = getBonusAtributo(sheet.atribDex, sheet.modAtribDex);
-				</event>
-			</dataLink>
-			<!-- Agilidade -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="AGI: " width="50"/>
-				<edit field="atribAgi" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribAgi" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribAgi"/>
-				<label class="LabelNumber" field="bonusAgi" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribAgi', 'modAtribAgi'}">
-				<event name="onChange">
-					sheet.percentAtribAgi = getPercentualAtributo(sheet.atribAgi, sheet.modAtribAgi);
-					sheet.bonusAgi = getBonusAtributo(sheet.atribAgi, sheet.modAtribAgi);
-				</event>
-			</dataLink>
-			<!-- Inteligência -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="INT: " width="50"/>
-				<edit field="atribInt" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribInt" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribInt"/>
-				<label class="LabelNumber" field="bonusInt" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribInt', 'modAtribInt'}">
-				<event name="onChange">
-					sheet.percentAtribInt = getPercentualAtributo(sheet.atribInt, sheet.modAtribInt);
-					sheet.bonusInt = getBonusAtributo(sheet.atribInt, sheet.modAtribInt);
-				</event>
-			</dataLink>
-			<!-- Força de Vontade -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="WILL: " width="50"/>
-				<edit field="atribWill" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribWill" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribWill"/>
-				<label class="LabelNumber" field="bonusWill" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribWill', 'modAtribWill'}">
-				<event name="onChange">
-					sheet.percentAtribWill = getPercentualAtributo(sheet.atribWill, sheet.modAtribWill);
-					sheet.bonusWill = getBonusAtributo(sheet.atribWill, sheet.modAtribWill);
-				</event>
-			</dataLink>
-			<!-- Percepição -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="PER: " width="50"/>
-				<edit field="atribPer" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribPer" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribPer"/>
-				<label class="LabelNumber" field="bonusPer" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribPer', 'modAtribPer'}">
-				<event name="onChange">
-					sheet.percentAtribPer = getPercentualAtributo(sheet.atribPer, sheet.modAtribPer);
-					sheet.bonusPer = getBonusAtributo(sheet.atribPer, sheet.modAtribPer);
-				</event>
-			</dataLink>
-			<!-- Carisma -->
-			<layout class="LayoutCampo Atributo">
-				<label align="left" text="CAR: " width="50"/>
-				<edit field="atribCar" type="number" keyboardType="numberPad" text="0"/>
-				<edit field="modAtribCar" type="number" keyboardType="numberPad" text="0"/>
-				<label class="LabelNumber" field="percentAtribCar"/>
-				<label class="LabelNumber" field="bonusCar" visible="false"/>
-			</layout>
-			<dataLink fields="{'atribCar', 'modAtribCar'}">
-				<event name="onChange">
-					sheet.percentAtribCar = getPercentualAtributo(sheet.atribCar, sheet.modAtribCar);
-					sheet.bonusCar = getBonusAtributo(sheet.atribCar, sheet.modAtribCar);
-				</event>
-			</dataLink>
-		</flowLayout>
-	</layout>	
+			.LayoutCampo {
+				align: top;
+				height: 25;
+				align: left;
+				margins: {left=2, right=2};
+			}
+
+			.LayoutCampo label {
+				align: left;
+				width: 45;
+				vertTextAlign: center;
+			}
+
+			.LayoutCampo edit {
+				align: left;
+				height: 25;
+				width: 75;
+				horzTextAlign: center;
+				fontSize: 20;
+			}
+			
+			.LabelNumber {
+				align: left;
+				height: 25;
+				width: 50;
+				horzTextAlign: center;
+				fontSize: 20;
+			}
+		</style>
+	
+		<layout name="container" left="20" top="20" width="500" height="500">
+			<import file="cabecalho.xml"/>
+			<import file="atributos.xml"/>
+		</layout>
+	</scrollBox>
 </form>
