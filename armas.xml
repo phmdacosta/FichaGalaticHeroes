@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Atributos -->
+<flowLayout name="containerArmas" align="top" left="20" top="20" autoHeight="true" width="500" orientation="horizontal" margins="{top=20}">
+
+	<label align="left" text="Armas" fontSize="24" height="25" width="200" margins="{bottom=10}"/>
+	<flowLineBreak/>
+	
+	<button align="left" height="25" text="Novo" width="80"
+				onClick="self.listArmas:append();"/>
+	<flowLineBreak/>
+	
+	<recordList name="listArmas" field="armas" templateForm="frmItemDeArma"
+                    top="60" width="300" autoHeight="true"/>
+</flowLayout>

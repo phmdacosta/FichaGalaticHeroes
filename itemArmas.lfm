@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form name="frmItemDeArma" height="50" width="1000" theme="light" margins="{bottom=2}">
+
+	<style>
+		.ArmasMargin {
+			margins: {right=5};
+		}
+		.Nome {
+			width: 150;
+		}
+		.Dano {
+			width: 70;
+		}
+	</style>
+
+	<layout align="client">
+		<layout align="top" height="25">
+			<rectangle class="ArmasMargin" align="left"  width="25" opacity="0" margins="{right=5}"/>
+			<label class="ArmasMargin Nome" align="left" text="Nome" fontSize="10" horzTextAlign="center"/>
+			<label class="ArmasMargin Dano" align="left" text="Dano" fontSize="10" horzTextAlign="center"/>
+			<label class="ArmasMargin" align="left" text="Rolagem" width="125" fontSize="10" horzTextAlign="center"/>
+		</layout>
+		<flowLineBreak/>
+					
+		<layout align="top" height="25">
+			
+			<button class="ArmasMargin" align="left" text="X" width="25"
+						onClick="NDB.deleteNode(sheet);"/>
+						
+			<edit class="ArmasMargin Nome" align="left" field="nomeArma" keyboardType="numberPad"/>
+			
+			<edit class="ArmasMargin Dano" align="left" field="danoArma" keyboardType="numberPad" horzTextAlign="center"/> 
+			
+			<edit align="left" field="qtdDadosArma" width="25" keyboardType="numberPad" horzTextAlign="center"/>
+			<label class="ArmasMargin" align="left" width="100" field="dadoAtkArma" text="d100"/>
+
+		</layout>
+	</layout>
+</form>
