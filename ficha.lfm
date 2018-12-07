@@ -40,12 +40,31 @@
 				horzTextAlign: center;
 				fontSize: 20;
 			}
+
+			.Hint {
+				horzTextAlign: center;
+				fontSize: 10;
+			}
 		</style>
+
+		<script>
+			function split(s, delimiter)
+				result = {};
+				for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+					table.insert(result, match);
+				end
+				return result;
+			end;
+
+			function trim(s)
+				return s:gsub("%s+", "")
+			end;
+		</script>
 	
-		<layout name="container" align="client">
+		<flowLayout name="container" autoHeight="true" width="1000" orientation="horizontal" maxControlsPerLine="1">
 			<import file="cabecalho.xml"/>
 			<import file="atributos.xml"/>
 			<import file="armas.xml"/>
-		</layout>
+		</flowLayout>
 	</scrollBox>
 </form>

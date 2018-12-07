@@ -10,5 +10,5 @@
 	<flowLineBreak/>
 	
 	<recordList name="listArmas" field="armas" templateForm="frmItemDeArma"
-                    top="60" width="300" autoHeight="true"/>
+                    top="60" width="500" autoHeight="true"/>
 </flowLayout>

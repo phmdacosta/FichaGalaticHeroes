@@ -10,21 +10,25 @@
 			horzTextAlign: center;
 			fontSize: 20;
 		}
+
+		.Atributo label {
+			width: 50;
+		}
 	</style>
 
 	<label align="left" text="Atributos" fontSize="24" height="25" width="200" margins="{bottom=10}"/>
-	<flowLineBreak/> 
+	<flowLineBreak/>
 	
-	<layout class="LayoutCampo">
+	<layout class="LayoutCampo Atributo">
 		<rectangle align="left" width="50" opacity="0"/>
-		<label text="Valor" fontSize="10" horzTextAlign="center" width="50"/>
-		<label text="MOD" fontSize="10" horzTextAlign="center" width="50"/>
-		<label text="%" fontSize="10" horzTextAlign="center" width="50"/>
+		<label class="Hint" text="Valor"/>
+		<label class="Hint" text="MOD"/>
+		<label class="Hint" text="%"/>
 	</layout>
 	
 	<!-- Força -->
 	<layout class="LayoutCampo Atributo">
-		<label text="FOR: " width="50"/>
+		<label align="left" text="FOR: "/>
 		<edit field="atribFor" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribFor" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribFor"/>
@@ -40,7 +44,7 @@
 	
 	<!-- Constituição -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="CON: " width="50"/>
+		<label align="left" text="CON: "/>
 		<edit field="atribCon" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribCon" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribCon"/>
@@ -56,7 +60,7 @@
 	
 	<!-- Destreza -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="DEX: " width="50"/>
+		<label align="left" text="DEX: "/>
 		<edit field="atribDex" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribDex" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribDex"/>
@@ -71,7 +75,7 @@
 	
 	<!-- Agilidade -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="AGI: " width="50"/>
+		<label align="left" text="AGI: "/>
 		<edit field="atribAgi" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribAgi" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribAgi"/>
@@ -86,7 +90,7 @@
 	
 	<!-- Inteligência -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="INT: " width="50"/>
+		<label align="left" text="INT: "/>
 		<edit field="atribInt" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribInt" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribInt"/>
@@ -101,7 +105,7 @@
 	
 	<!-- Força de Vontade -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="WILL: " width="50"/>
+		<label align="left" text="WILL: "/>
 		<edit field="atribWill" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribWill" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribWill"/>
@@ -117,7 +121,7 @@
 	
 	<!-- Percepição -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="PER: " width="50"/>
+		<label align="left" text="PER: "/>
 		<edit field="atribPer" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribPer" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribPer"/>
@@ -132,7 +136,7 @@
 	
 	<!-- Carisma -->
 	<layout class="LayoutCampo Atributo">
-		<label align="left" text="CAR: " width="50"/>
+		<label align="left" text="CAR: "/>
 		<edit field="atribCar" type="number" keyboardType="numberPad"/>
 		<edit field="modAtribCar" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribCar"/>
@@ -146,16 +150,20 @@
 	</layout>
 	
 	<script>
-		local function getTotalAtributo(valorBase, modificador)
+		function getAtributosObject()
+			return sheet;
+		end;
+
+		function getTotalAtributo(valorBase, modificador)
 			return (tonumber(valorBase) or 0) + (tonumber(modificador) or 0);
 		end;
 		
-		local function getPercentualAtributo(valorBase, modificador)
+		function getPercentualAtributo(valorBase, modificador)
 			local valorTotal = getTotalAtributo(valorBase, modificador);
 			return valorTotal * 4;
 		end;
 		
-		local function getBonusAtributo(valorBase, modificador)
+		function getBonusAtributo(valorBase, modificador)
 			local valorTotal = getTotalAtributo(valorBase, modificador);
 			if (valorTotal >= 12) then
 				return math.floor(((valorTotal - 12) / 2) + 1);

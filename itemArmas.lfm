@@ -1,39 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form name="frmItemDeArma" height="50" width="1000" theme="light" margins="{bottom=2}">
+<form name="frmItemDeArma" theme="light">
 
 	<style>
+		edit {
+			height: 25;
+			fontSize: 14;
+		}
+		label {
+			height: 25;
+		}
+		.Hint {
+			horzTextAlign: center;
+			fontSize: 10;
+		}
 		.ArmasMargin {
 			margins: {right=5};
 		}
-		.Nome {
-			width: 150;
+		.Tipo {
+			width: 100;
+		}
+		.Descricao {
+			width: 300;
 		}
 		.Dano {
 			width: 70;
 		}
+		.Rof {
+			width: 50;
+		}
+		.Rolagem {
+			width: 70;
+		}
+		.Pericia {
+			width: 50;
+		}
+		.BotaoRolar {
+			height: 50;
+			width: 70;
+		}
 	</style>
 
-	<layout align="client">
-		<layout align="top" height="25">
-			<rectangle class="ArmasMargin" align="left"  width="25" opacity="0" margins="{right=5}"/>
-			<label class="ArmasMargin Nome" align="left" text="Nome" fontSize="10" horzTextAlign="center"/>
-			<label class="ArmasMargin Dano" align="left" text="Dano" fontSize="10" horzTextAlign="center"/>
-			<label class="ArmasMargin" align="left" text="Rolagem" width="125" fontSize="10" horzTextAlign="center"/>
-		</layout>
-		<flowLineBreak/>
-					
-		<layout align="top" height="25">
-			
-			<button class="ArmasMargin" align="left" text="X" width="25"
-						onClick="NDB.deleteNode(sheet);"/>
-						
-			<edit class="ArmasMargin Nome" align="left" field="nomeArma" keyboardType="numberPad"/>
-			
-			<edit class="ArmasMargin Dano" align="left" field="danoArma" keyboardType="numberPad" horzTextAlign="center"/> 
-			
-			<edit align="left" field="qtdDadosArma" width="25" keyboardType="numberPad" horzTextAlign="center"/>
-			<label class="ArmasMargin" align="left" width="100" field="dadoAtkArma" text="d100"/>
+	<flowLayout autoHeight="true" width="500" maxControlsPerLine="1">
+		<flowLayout autoHeight="true" width="500">
+			<flowLayout class="ArmasMargin" align="left" autoHeight="true" width="25" maxControlsPerLine="1">
+				<rectangle height="25" width="25" opacity="0"/>
+				<button height="25" width="25" text="X" onClick="NDB.deleteNode(sheet);"/>
+			</flowLayout>
 
-		</layout>
-	</layout>
+			<!-- Tipo da Arma -->
+			<flowLayout class="Tipo ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
+				<label class="Tipo Hint" text="Tipo"/>
+				<comboBox class="Tipo" field="tipoArma" 
+					items="{'Corpo a corpo', 'Distância'}" 
+					values="{'C', 'D'}" value="C"/>
+			</flowLayout>
+			
+			<!-- Descrição da Arma -->
+			<flowLayout class="Descricao ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
+				<label class="Descricao Hint" text="Descrição"/>
+				<edit class="Descricao" field="descricaoArma"/>
+			</flowLayout>
+		</flowLayout>
+
+		<flowLayout autoHeight="true" width="500">
+			<flowLayout class="ArmasMargin" align="left" autoHeight="true" width="25" maxControlsPerLine="1">
+				<rectangle height="25" width="25" opacity="0"/>
+				<rectangle height="25" width="25" opacity="0"/>
+			</flowLayout>
+						
+			<!-- Dano da Arma -->
+			<flowLayout class="Dano ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
+				<label class="Dano Hint" text="Dano"/>
+				<edit class="Dano" field="danoArma" horzTextAlign="center"/>
+			</flowLayout>
+
+			<!-- ROF da arma, no caso de arma a distância (default 1) -->
+			<!-- <flowLayout name="rofLayout" class="Rof ArmasMargin" align="left" autoHeight="true" 
+				maxControlsPerLine="1" visible="false">
+				<label class="Rof Hint" text="ROF"/>
+				<edit class="Rof" field="rofArma" horzTextAlign="center"/>
+				<dataLink field="rofArma" defaultValue="1"/>
+			</flowLayout> -->
+
+			<!-- Rolagem para acertar o teste -->
+			<flowLayout class="Rolagem ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
+				<label class="Rolagem Hint" text="Rolagem"/>
+				<edit class="Rolagem" field="rolagemArma" horzTextAlign="center"/>
+				<dataLink field="rolagemArma" defaultValue="1d100"/>
+			</flowLayout>
+
+			<!-- Perícia com a Arma -->
+			<flowLayout class="Pericia ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
+				<label class="Pericia Hint" text="Perícia"/>
+				<edit class="Pericia" field="periciaArma" horzTextAlign="center"/>
+				<dataLink field="periciaArma" defaultValue="0"/>
+			</flowLayout>
+
+			<!-- Botão para efetuar a rolagem do ataque com a arma -->
+			<button class="BotaoRolar" text="Rolar" onClick="rolarAtaque();"/>
+		</flowLayout>
+	</flowLayout>
+
+	<script>
+		local nodoAtributos = getAtributosObject();
+
+		local erroCritico = 95;
+
+		local function rolarAtaqueDistancia()
+
+			-- SCRIPT PARA ROLAGEM DE ATAQUE A DISTÂNCIA
+
+			local mesa = Firecast.getMesaDe(sheet);
+
+			-- Dado de teste
+			local dadoDeAcerto = sheet.rolagemArma;
+			-- Perícia do seu personagem
+			local pericia = (tonumber(sheet.periciaArma) or 0);
+			-- Crítico do personagem
+			local critico = pericia / 4;
+
+			-- Bônus no dano pelo atributo
+			local bonusAtrib = getBonusAtributo(nodoAtributos.atribPer, nodoAtributos.modAtribPer);
+			
+			-- Pegando informações do dano
+			local arrayDano = split(trim(sheet.danoArma), "+");
+			-- Dano fixo adicional da arma
+			local danoAdicional = tonumber(arrayDano[2]);
+			
+			arrayDano = split(trim(arrayDano[1]), "d");
+			-- Quantidade de dados para o dano
+			local qtdDadosDano = tonumber(arrayDano[1]);
+			-- Dado base para o dano
+			local dadoBaseDano = "d"..arrayDano[2];
+			
+
+			-- Quantidade de Ataques
+			-- local arrayRolagem = split(trim(dadoDeAcerto), "d");
+			-- local qtdAtaques = tonumber(arrayRolagem[1]);
+
+			local function rolarDano(numDados, dado, bonus, isCritico)
+
+				-- numDados = numDados * qtdAtaques;
+				-- bonus = bonus * qtdAtaques;
+				
+				local danoBase = numDados .. dado .. " + " .. bonus;
+
+				if isCritico then
+					danoBase = (numDados * 2) .. dado .. " + " .. (bonus * 2);
+				end;
+
+				mesa.chat:rolarDados(danoBase, "Dano base: " .. danoBase,
+					function(rolagem)
+						resultadoFinal = rolagem.resultado + bonusAtrib;
+						mesa.chat:enviarMensagem("Dano: " .. rolagem.resultado .. " + " .. bonusAtrib 
+							.. "(bônus de atributo)" .. " = " .. resultadoFinal);
+					end
+				);
+			end;
+
+			mesa.chat:enviarMensagem("############## ATAQUE A DISTÂNCIA ##################");
+
+			mesa.chat:rolarDados(dadoDeAcerto, "Dificuldade: " .. pericia,
+				function(rolagem)
+					for i = 1, #rolagem.ops, 1 do
+						local op = rolagem.ops[i];
+
+						if op.tipo == "dado" then
+							for j = 1, #op.resultados, 1 do
+								mesa.chat:enviarMensagem("- Ataque " .. j .. " -");
+								local resultado = math.floor(op.resultados[j]);
+
+								if pericia >= resultado then
+									local dificil = pericia / 2;
+									local isCritico = false;
+									local _qtdDadosDano = qtdDadosDano;
+									local _danoAdicional = danoAdicional;
+
+									if critico >= resultado  then
+										mesa.chat:enviarMensagem("Crítico! " .. resultado);
+										isCritico = true;
+									elseif dificil >= resultado then
+										mesa.chat:enviarMensagem("Acertou no difícil: " .. resultado);
+									else
+										mesa.chat:enviarMensagem("Acertou: " .. resultado);
+									end;
+									
+									rolarDano(_qtdDadosDano, dadoBaseDano, _danoAdicional, isCritico);
+								else
+									if resultado >= erroCritico then
+										mesa.chat:enviarMensagem("Erro crítico! " .. resultado);
+									else
+										mesa.chat:enviarMensagem("Errou: " .. resultado);
+									end;
+								end;
+							end;
+						end;
+					end;
+				end
+			);
+		end;
+
+		local function rolarAtaque()
+			if sheet.tipoArma == 'D' then
+				rolarAtaqueDistancia();
+			end;
+		end;
+
+		
+	</script>
 </form>
