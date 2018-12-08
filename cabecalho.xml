@@ -6,6 +6,7 @@
 		<label align="left" text="LV: " width="45"/>
 		<edit type="number" keyboardType="numberPad" align="left" 
 			horzTextAlign="center" field="level" width="50"/>
+		<dataLink field="level" defaultValue="1"/>
 	</layout>
 	
 	<!-- PV -->
@@ -42,5 +43,71 @@
 		<edit type="number" keyboardType="numberPad" align="left" 
 			horzTextAlign="center" field="mira" width="100"/>
 	</layout>
+	
+	<script>
+		function getCabecalhoObject()
+			return sheet;
+		end;
+
+		function atualizarIP(id, ip)
+			if sheet.ips == nil then
+				sheet.ips = {};
+			end;
+
+			sheet.ips[id] = ip
+			sheet.ip = 0;
+
+			for i, v in pairs(sheet.ips) do
+				if v ~= nil then
+					sheet.ip = sheet.ip + sheet.ips[i];
+				end;
+			end;
+		end;
+
+		function atualizarPV(id, pv)
+			if sheet.pvExtra == nil then
+				sheet.pvExtra = {};
+			end;
+
+			sheet.pvExtra[id] = pv
+			sheet.pv = 0;
+
+			for i, v in pairs(sheet.pvExtra) do
+				if v ~= nil then
+					sheet.pv = sheet.pv + sheet.pvExtra[i];
+				end;
+			end;
+		end;
+
+		function atualizarPM(id, pm)
+			if sheet.pmExtra == nil then
+				sheet.pmExtra = {};
+			end;
+
+			sheet.pmExtra[id] = pm
+			sheet.pm = 0;
+
+			for i, v in pairs(sheet.pmExtra) do
+				if v ~= nil then
+					sheet.pm = sheet.pm + sheet.pmExtra[i];
+				end;
+			end;
+		end;
+
+		function atualizarPH(id, ph)
+			if sheet.phExtra == nil then
+				sheet.phExtra = {};
+			end;
+
+			sheet.phExtra[id] = ph
+			sheet.ph = 0;
+
+			for i, v in pairs(sheet.phExtra) do
+				if v ~= nil then
+					sheet.ph = sheet.ph + sheet.phExtra[i];
+				end;
+			end;
+		end;
+	</script>
 	
 </flowLayout> 

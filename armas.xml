@@ -2,13 +2,50 @@
 <!-- Atributos -->
 <flowLayout name="containerArmas" align="top" left="20" top="20" autoHeight="true" width="500" orientation="horizontal" margins="{top=20}">
 
-	<label align="left" text="Armas" fontSize="24" height="25" width="200" margins="{bottom=10}"/>
+	<label class="Titulo" align="left" text="Armas"/>
 	<flowLineBreak/>
 	
 	<button align="left" height="25" text="Novo" width="80"
-				onClick="self.listArmas:append();"/>
+				onClick="adicionarArma();"/>
 	<flowLineBreak/>
 	
 	<recordList name="listArmas" field="armas" templateForm="frmItemDeArma"
-                    top="60" width="500" autoHeight="true"/>
+                    top="60" width="500" autoHeight="true">
+		<event name="onItemRemoved">
+			if sheet ~= nil then
+				local nomeNodo = "nodo" .. node.id
+				sheet.listArmas[nomeNodo] = nil;
+				sheet.listArmas.length = sheet.listArmas.length - 1;
+			end;
+		</event>
+	</recordList>
+
+	<script>
+		local function adicionarArma()
+			if sheet.listArmas == nil then
+				sheet.listArmas = {length=0}
+			end;
+
+			local node = self.listArmas:append();
+
+			if node ~= nil then
+				sheet.listArmas.length = sheet.listArmas.length + 1;
+
+				node.id = sheet.listArmas.length;
+				local nomeNodo = "arma" .. node.id;
+				sheet.listArmas[nomeNodo] = node;
+			end;
+		end;
+
+		function atualizarArmaLista(arma)
+			if sheet.listArmas ~= nil then
+				local nomeNodo = "arma" .. arma.id;
+				sheet.listArmas[nomeNodo] = arma;
+			end;
+		end;
+
+		function getListaArmas()
+			return sheet.listArmas;
+		end;
+	</script>
 </flowLayout>

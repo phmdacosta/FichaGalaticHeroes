@@ -13,20 +13,20 @@
 			horzTextAlign: center;
 			fontSize: 10;
 		}
+		.Line {
+			width: 380;
+		}
 		.ArmasMargin {
 			margins: {right=5};
 		}
 		.Tipo {
-			width: 100;
+			width: 85;
 		}
 		.Descricao {
-			width: 300;
+			width: 250;
 		}
 		.Dano {
 			width: 70;
-		}
-		.Rof {
-			width: 50;
 		}
 		.Rolagem {
 			width: 70;
@@ -34,14 +34,17 @@
 		.Pericia {
 			width: 50;
 		}
+		.DefInimigo {
+			width: 60;
+		}
 		.BotaoRolar {
-			height: 50;
+			height: 25;
 			width: 70;
 		}
 	</style>
 
-	<flowLayout autoHeight="true" width="500" maxControlsPerLine="1">
-		<flowLayout autoHeight="true" width="500">
+	<flowLayout class="Line" autoHeight="true" maxControlsPerLine="1">
+		<flowLayout class="Line" autoHeight="true">
 			<flowLayout class="ArmasMargin" align="left" autoHeight="true" width="25" maxControlsPerLine="1">
 				<rectangle height="25" width="25" opacity="0"/>
 				<button height="25" width="25" text="X" onClick="NDB.deleteNode(sheet);"/>
@@ -51,8 +54,13 @@
 			<flowLayout class="Tipo ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
 				<label class="Tipo Hint" text="Tipo"/>
 				<comboBox class="Tipo" field="tipoArma" 
-					items="{'Corpo a corpo', 'Distância'}" 
+					items="{'Corpo', 'Distância'}" 
 					values="{'C', 'D'}" value="C"/>
+				<dataLink field="tipoArma" defaultValue="C">
+					<event name="onChange">
+						alternarVisibilidadeDefInimigo();
+					</event>
+				</dataLink>
 			</flowLayout>
 			
 			<!-- Descrição da Arma -->
@@ -62,7 +70,7 @@
 			</flowLayout>
 		</flowLayout>
 
-		<flowLayout autoHeight="true" width="500">
+		<flowLayout class="Line" autoHeight="true">
 			<flowLayout class="ArmasMargin" align="left" autoHeight="true" width="25" maxControlsPerLine="1">
 				<rectangle height="25" width="25" opacity="0"/>
 				<rectangle height="25" width="25" opacity="0"/>
@@ -73,14 +81,6 @@
 				<label class="Dano Hint" text="Dano"/>
 				<edit class="Dano" field="danoArma" horzTextAlign="center"/>
 			</flowLayout>
-
-			<!-- ROF da arma, no caso de arma a distância (default 1) -->
-			<!-- <flowLayout name="rofLayout" class="Rof ArmasMargin" align="left" autoHeight="true" 
-				maxControlsPerLine="1" visible="false">
-				<label class="Rof Hint" text="ROF"/>
-				<edit class="Rof" field="rofArma" horzTextAlign="center"/>
-				<dataLink field="rofArma" defaultValue="1"/>
-			</flowLayout> -->
 
 			<!-- Rolagem para acertar o teste -->
 			<flowLayout class="Rolagem ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
@@ -97,30 +97,43 @@
 			</flowLayout>
 
 			<!-- Botão para efetuar a rolagem do ataque com a arma -->
-			<button class="BotaoRolar" text="Rolar" onClick="rolarAtaque();"/>
+			<flowLayout class="BotaoRolar ArmasMargin" align="left" autoHeight="true" maxControlsPerLine="1">
+				<rectangle class="BotaoRolar" opacity="0"/>
+				<button class="BotaoRolar" text="Rolar" onClick="--rolarAtaque();"/>
+			</flowLayout>
+
+			<!-- Defesa do inimigo -->
+			<flowLayout name="defInimigoLayout" class="DefInimigo ArmasMargin" align="left" 
+				autoHeight="true" maxControlsPerLine="1">
+				<label class="DefInimigo Hint" text="Def. Inimigo"/>
+				<edit class="DefInimigo" field="defInimigo" horzTextAlign="center" hint="Defesa do Inimigo"/>
+				<dataLink field="defInimigo" defaultValue="0"/>
+			</flowLayout>
 		</flowLayout>
 	</flowLayout>
+
+	<dataLink fields="{descricaoArma, danoArma, rolagemArma, periciaArma}">
+		<event name="onChange">
+			atualizarArmaLista(sheet)
+		</event>
+	</dataLink>
 
 	<script>
 		local nodoAtributos = getAtributosObject();
 
-		local erroCritico = 95;
+		local function alternarVisibilidadeDefInimigo()
+			if sheet.tipoArma == 'D' then
+				self.defInimigoLayout.enabled = false;
+			else
+				self.defInimigoLayout.enabled = true;
+			end;
+		end;
 
-		local function rolarAtaqueDistancia()
-
-			-- SCRIPT PARA ROLAGEM DE ATAQUE A DISTÂNCIA
-
+		local function efetuarRolagem(dificuldade, bonusAtrib, critico)
 			local mesa = Firecast.getMesaDe(sheet);
 
 			-- Dado de teste
 			local dadoDeAcerto = sheet.rolagemArma;
-			-- Perícia do seu personagem
-			local pericia = (tonumber(sheet.periciaArma) or 0);
-			-- Crítico do personagem
-			local critico = pericia / 4;
-
-			-- Bônus no dano pelo atributo
-			local bonusAtrib = getBonusAtributo(nodoAtributos.atribPer, nodoAtributos.modAtribPer);
 			
 			-- Pegando informações do dano
 			local arrayDano = split(trim(sheet.danoArma), "+");
@@ -133,10 +146,9 @@
 			-- Dado base para o dano
 			local dadoBaseDano = "d"..arrayDano[2];
 			
-
 			-- Quantidade de Ataques
-			-- local arrayRolagem = split(trim(dadoDeAcerto), "d");
-			-- local qtdAtaques = tonumber(arrayRolagem[1]);
+			--local arrayRolagem = split(trim(dadoDeAcerto), "d");
+			--local qtdAtaques = tonumber(arrayRolagem[1]);
 
 			local function rolarDano(numDados, dado, bonus, isCritico)
 
@@ -158,9 +170,7 @@
 				);
 			end;
 
-			mesa.chat:enviarMensagem("############## ATAQUE A DISTÂNCIA ##################");
-
-			mesa.chat:rolarDados(dadoDeAcerto, "Dificuldade: " .. pericia,
+			mesa.chat:rolarDados(dadoDeAcerto, "Dificuldade: " .. dificuldade,
 				function(rolagem)
 					for i = 1, #rolagem.ops, 1 do
 						local op = rolagem.ops[i];
@@ -170,8 +180,8 @@
 								mesa.chat:enviarMensagem("- Ataque " .. j .. " -");
 								local resultado = math.floor(op.resultados[j]);
 
-								if pericia >= resultado then
-									local dificil = pericia / 2;
+								if dificuldade >= resultado then
+									local dificil = dificuldade / 2;
 									local isCritico = false;
 									local _qtdDadosDano = qtdDadosDano;
 									local _danoAdicional = danoAdicional;
@@ -201,8 +211,20 @@
 		end;
 
 		local function rolarAtaque()
+
+			local mesa = Firecast.getMesaDe(sheet);
+			local pericia = (tonumber(sheet.periciaArma) or 0);
+			local critico = pericia / 4;
+
 			if sheet.tipoArma == 'D' then
-				rolarAtaqueDistancia();
+				mesa.chat:enviarMensagem("############## ATAQUE A DISTÂNCIA ##################");
+				local bonus = getBonusAtributo(nodoAtributos.atribPer, nodoAtributos.modAtribPer);
+				efetuarRolagem(pericia, bonus, critico);
+			else
+				mesa.chat:enviarMensagem("############## ATAQUE CORPO A CORPO ##################");
+				local dificuldade = (pericia - (tonumber(sheet.defInimigo) or 0)) + 50;
+				local bonus = getBonusAtributo(nodoAtributos.atribFor, nodoAtributos.modAtribFor);
+				efetuarRolagem(dificuldade, bonus, critico);
 			end;
 		end;
 

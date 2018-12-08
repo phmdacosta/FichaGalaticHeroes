@@ -45,9 +45,18 @@
 				horzTextAlign: center;
 				fontSize: 10;
 			}
+
+			.Titulo {
+				fontSize: 24;
+				height: 25;
+				width: 200;
+				margins: {bottom=10};
+			}
 		</style>
 
 		<script>
+			erroCritico = 95;
+
 			function split(s, delimiter)
 				result = {};
 				for match in (s..delimiter):gmatch("(.-)"..delimiter) do
@@ -65,6 +74,7 @@
 			<import file="cabecalho.xml"/>
 			<import file="atributos.xml"/>
 			<import file="armas.xml"/>
+			<import file="armadura.xml"/>
 		</flowLayout>
 	</scrollBox>
 </form>

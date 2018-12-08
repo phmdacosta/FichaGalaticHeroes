@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Atributos -->
-<flowLayout name="containerAtributos" align="top" left="20" top="20" autoHeight="true" width="200" orientation="horizontal" margins="{top=20}">
+<flowLayout name="containerAtributos" align="top" left="20" top="20" autoHeight="true" width="260" orientation="horizontal" margins="{top=20}">
 
 	<style>
 		.Atributo edit {
@@ -14,9 +14,16 @@
 		.Atributo label {
 			width: 50;
 		}
+
+		.Atributo button {
+			align: left;
+			height: 25;
+			width: 50;
+			margins: {left=5};
+		}
 	</style>
 
-	<label align="left" text="Atributos" fontSize="24" height="25" width="200" margins="{bottom=10}"/>
+	<label class="Titulo" align="left" text="Atributos"/>
 	<flowLineBreak/>
 	
 	<layout class="LayoutCampo Atributo">
@@ -33,6 +40,7 @@
 		<edit field="modAtribFor" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribFor"/>
 		<label class="LabelNumber" field="bonusFor" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('FOR')"/>
 		<dataLink fields="{'atribFor', 'modAtribFor'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribFor = getPercentualAtributo(sheet.atribFor, sheet.modAtribFor);
@@ -49,6 +57,7 @@
 		<edit field="modAtribCon" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribCon"/>
 		<label class="LabelNumber" field="bonusCon" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('CON')"/>
 		<dataLink fields="{'atribCon', 'modAtribCon'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribCon = getPercentualAtributo(sheet.atribCon, sheet.modAtribCon);
@@ -65,6 +74,7 @@
 		<edit field="modAtribDex" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribDex"/>
 		<label class="LabelNumber" field="bonusDex" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('DEX')"/>
 		<dataLink fields="{'atribDex', 'modAtribDex'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribDex = getPercentualAtributo(sheet.atribDex, sheet.modAtribDex);
@@ -80,6 +90,7 @@
 		<edit field="modAtribAgi" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribAgi"/>
 		<label class="LabelNumber" field="bonusAgi" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('AGI')"/>
 		<dataLink fields="{'atribAgi', 'modAtribAgi'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribAgi = getPercentualAtributo(sheet.atribAgi, sheet.modAtribAgi);
@@ -95,6 +106,7 @@
 		<edit field="modAtribInt" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribInt"/>
 		<label class="LabelNumber" field="bonusInt" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('INT')"/>
 		<dataLink fields="{'atribInt', 'modAtribInt'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribInt = getPercentualAtributo(sheet.atribInt, sheet.modAtribInt);
@@ -110,6 +122,7 @@
 		<edit field="modAtribWill" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribWill"/>
 		<label class="LabelNumber" field="bonusWill" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('WILL')"/>
 		<dataLink fields="{'atribWill', 'modAtribWill'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribWill = getPercentualAtributo(sheet.atribWill, sheet.modAtribWill);
@@ -126,6 +139,7 @@
 		<edit field="modAtribPer" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribPer"/>
 		<label class="LabelNumber" field="bonusPer" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('PER')"/>
 		<dataLink fields="{'atribPer', 'modAtribPer'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribPer = getPercentualAtributo(sheet.atribPer, sheet.modAtribPer);
@@ -141,6 +155,7 @@
 		<edit field="modAtribCar" type="number" keyboardType="numberPad"/>
 		<label class="LabelNumber" field="percentAtribCar"/>
 		<label class="LabelNumber" field="bonusCar" visible="false"/>
+		<button text="Rolar" onClick="efetuarTeste('CAR')"/>
 		<dataLink fields="{'atribCar', 'modAtribCar'}" defaultValues="{'0','0'}">
 			<event name="onChange">
 				sheet.percentAtribCar = getPercentualAtributo(sheet.atribCar, sheet.modAtribCar);
@@ -165,26 +180,84 @@
 		
 		function getBonusAtributo(valorBase, modificador)
 			local valorTotal = getTotalAtributo(valorBase, modificador);
-			if (valorTotal >= 12) then
+			if valorTotal >= 12 then
 				return math.floor(((valorTotal - 12) / 2) + 1);
 			end
 			return 0;
 		end;
 		
 		local function calcularPV()
-			if (sheet.percentAtribCon ~= nil) then
+			if sheet.percentAtribCon ~= nil then
 				local valAtribFor = (tonumber(sheet.percentAtribFor) or 0) / 4;
 				local valAtribCon = (tonumber(sheet.percentAtribCon) or 0) / 4;
 				local resultadoPV = ((valAtribFor + valAtribCon) / 2) + (tonumber(sheet.level) or 0) + (tonumber(sheet.bonusCon) or 0);
-				sheet.pv = math.floor(resultadoPV);
+				atualizarPV(1, math.floor(resultadoPV));
 			end
 		end;
 		
 		local function calcularPM()
 			local level = tonumber(sheet.level);
-			if (level == 1) then
-				sheet.pm = tonumber(sheet.bonusWill) + 1;
+			if level == 1 then
+				local pm = tonumber(sheet.bonusWill) + 1;
+				atualizarPM(1, pm);
 			end
+		end;
+
+		local function efetuarTeste(atributo)
+			local percentAtrib = 0;
+			local nomeAtrib;
+
+			if atributo == "FOR" then
+				nomeAtrib = "FOR";
+				percentAtrib = sheet.percentAtribFor;
+			elseif atributo == "CON" then
+				nomeAtrib = "CON";
+				percentAtrib = sheet.percentAtribCon;
+			elseif atributo == "DEX" then
+				nomeAtrib = "DEX";
+				percentAtrib = sheet.percentAtribDex;
+			elseif atributo == "AGI" then
+				nomeAtrib = "AGI";
+				percentAtrib = sheet.percentAtribAgi;
+			elseif atributo == "INT" then
+				nomeAtrib = "INT";
+				percentAtrib = sheet.percentAtribInt;
+			elseif atributo == "WILL" then
+				nomeAtrib = "WILL";
+				percentAtrib = sheet.percentAtribWill;
+			elseif atributo == "PER" then
+				nomeAtrib = "PER";
+				percentAtrib = sheet.percentAtribPer;
+			else
+				nomeAtrib = "CAR";
+				percentAtrib = sheet.percentAtribCar;
+			end;
+
+			
+			local mesa = Firecast.getMesaDe(sheet);
+			mesa.chat:rolarDados("1d100", "Rolando " .. nomeAtrib,
+				function(rolagem)
+					local resultado = rolagem.resultado;
+					if percentAtrib >= resultado then
+						local dificil = percentAtrib / 2;
+						local critico = percentAtrib / 4;
+
+						if critico >= resultado  then
+							mesa.chat:enviarMensagem("Crítico! " .. resultado);
+						elseif dificil >= resultado then
+							mesa.chat:enviarMensagem("Acertou no difícil: " .. resultado);
+						else
+							mesa.chat:enviarMensagem("Acertou: " .. resultado);
+						end;
+					else
+						if resultado >= erroCritico then
+							mesa.chat:enviarMensagem("Erro crítico! " .. resultado);
+						else
+							mesa.chat:enviarMensagem("Errou: " .. resultado);
+						end;
+					end;
+				end
+			);
 		end;
 	</script>
 	
