@@ -13,39 +13,56 @@
                     top="60" width="500" autoHeight="true">
 		<event name="onItemRemoved">
 			if sheet ~= nil then
-				local nomeNodo = "nodo" .. node.id
-				sheet.listArmas[nomeNodo] = nil;
-				sheet.listArmas.length = sheet.listArmas.length - 1;
+				local nomeNodo = getNomeItem(node.id);
+				sheet.listaArmas[nomeNodo] = nil;
+				sheet.listaArmas.length = sheet.listaArmas.length - 1;
 			end;
 		</event>
 	</recordList>
 
 	<script>
+		local function getNomeItem(index)
+			return "arma" .. index;
+		end;
+
 		local function adicionarArma()
-			if sheet.listArmas == nil then
-				sheet.listArmas = {length=0}
+			require("ndb.lua");
+
+			if sheet.listaArmas == nil then
+				sheet.listaArmas = {length=0}
+			end;
+
+			if self.armasObservers == nil then
+				self.armasObservers = {length=0}
 			end;
 
 			local node = self.listArmas:append();
 
 			if node ~= nil then
-				sheet.listArmas.length = sheet.listArmas.length + 1;
+				sheet.listaArmas.length = sheet.listaArmas.length + 1;
 
-				node.id = sheet.listArmas.length;
-				local nomeNodo = "arma" .. node.id;
-				sheet.listArmas[nomeNodo] = node;
+				node.id = sheet.listaArmas.length;
+				local nomeNodo = getNomeItem(node.id);
+				sheet.listaArmas[nomeNodo] = node;
+
+				self.armasObservers[node.id] = NDB.newObserver(node);
+				self.armasObservers[node.id].onChanged = 
+							function(nodo, attribute, oldValue)
+								local nomeNodo = getNomeItem(nodo.id);
+								sheet.listaArmas[nomeNodo] = nodo;
+							end;
 			end;
 		end;
 
 		function atualizarArmaLista(arma)
-			if sheet.listArmas ~= nil then
-				local nomeNodo = "arma" .. arma.id;
-				sheet.listArmas[nomeNodo] = arma;
+			if sheet.listaArmas ~= nil then
+				local nomeNodo = getNomeItem(arma.id);
+				sheet.listaArmas[nomeNodo] = arma;
 			end;
 		end;
 
 		function getListaArmas()
-			return sheet.listArmas;
+			return sheet.listaArmas;
 		end;
 	</script>
 </flowLayout>

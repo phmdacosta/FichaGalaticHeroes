@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Atributos -->
+<flowLayout name="containerPericias" align="top" left="20" top="20" autoHeight="true" width="500" orientation="horizontal" margins="{top=20}">
+
+	<label class="Titulo" align="left" text="Pericias"/>
+	<flowLineBreak/>
+	
+	<button align="left" height="25" text="Novo" width="80"
+				onClick="adicionarPericia();"/>
+	<flowLineBreak/>
+	
+	<recordList name="listPericias" field="pericias" templateForm="frmItemPericia"
+                    top="5" width="500" autoHeight="true">
+		<event name="onItemRemoved">
+			if sheet ~= nil then
+				local nomeNodo = getNomeItem(node.id);
+				sheet.listaPericias[nomeNodo] = nil;
+				sheet.listaPericias.length = sheet.listaPericias.length - 1;
+			end;
+		</event>
+	</recordList>
+
+	<script>
+		local function getNomeItem(index)
+			return "pericia" .. index;
+		end;
+
+		local function adicionarPericia()
+			if sheet.listaPericias == nil then
+				sheet.listaPericias = {length=0}
+			end;
+
+			if self.periciasObservers == nil then
+				self.periciasObservers = {length=0}
+			end;
+
+			local node = self.listPericias:append();
+
+			if node ~= nil then
+				sheet.listaPericias.length = sheet.listaPericias.length + 1;
+
+				node.id = sheet.listaPericias.length;
+				local nomeNodo = getNomeItem(node.id);
+				sheet.listaPericias[nomeNodo] = node;
+
+				self.periciasObservers[node.id] = NDB.newObserver(node);
+				self.periciasObservers[node.id].onChanged = 
+							function(nodo, attribute, oldValue)
+								local nomeNodo = getNomeItem(nodo.id);
+								sheet.listaArmas[nomeNodo] = nodo;
+							end;
+			end;
+		end;
+
+		function atualizarPericiaLista(pericia)
+			if sheet.listaPericias ~= nil then
+				local nomeNodo = getNomeItem(pericia.id);
+				sheet.listaPericias[nomeNodo] = pericia;
+			end;
+		end;
+
+		function getListaPericias()
+			return sheet.listaPericias;
+		end;
+	</script>
+</flowLayout>

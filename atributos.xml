@@ -245,9 +245,9 @@
 						if critico >= resultado  then
 							mesa.chat:enviarMensagem("Crítico! " .. resultado);
 						elseif dificil >= resultado then
-							mesa.chat:enviarMensagem("Acertou no difícil: " .. resultado);
+							mesa.chat:enviarMensagem("Passou no difícil: " .. resultado);
 						else
-							mesa.chat:enviarMensagem("Acertou: " .. resultado);
+							mesa.chat:enviarMensagem("Passou: " .. resultado);
 						end;
 					else
 						if resultado >= erroCritico then

@@ -57,7 +57,7 @@
 					items="{'Corpo', 'Distância'}" 
 					values="{'C', 'D'}" value="C"/>
 				<dataLink field="tipoArma" defaultValue="C">
-					<event name="onChange">
+					<event name="onUserChange">
 						alternarVisibilidadeDefInimigo();
 					</event>
 				</dataLink>
@@ -112,11 +112,11 @@
 		</flowLayout>
 	</flowLayout>
 
-	<dataLink fields="{descricaoArma, danoArma, rolagemArma, periciaArma}">
+	<!-- <dataLink fields="{descricaoArma, danoArma, rolagemArma, periciaArma}">
 		<event name="onChange">
 			atualizarArmaLista(sheet)
 		</event>
-	</dataLink>
+	</dataLink> -->
 
 	<script>
 		local nodoAtributos = getAtributosObject();

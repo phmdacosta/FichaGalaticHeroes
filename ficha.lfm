@@ -75,6 +75,7 @@
 			<import file="atributos.xml"/>
 			<import file="armas.xml"/>
 			<import file="armadura.xml"/>
+			<import file="pericias.xml"/>
 		</flowLayout>
 	</scrollBox>
 </form>
